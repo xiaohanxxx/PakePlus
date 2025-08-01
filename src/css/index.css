@@ -1,0 +1,306 @@
+/* 全局高度设置 */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* 防止整个页面滚动 */
+}
+
+#app {
+    height: 100%;
+}
+
+/* 主行布局 */
+.el-row {
+    /*height: 100%;*/
+    display: flex;
+    margin: 0;
+}
+
+/* 左侧菜单 */
+.el-col:nth-child(1) {
+    height: 100%;
+    overflow-y: auto; /* 左侧内容过多时可滚动 */
+    box-sizing: border-box;
+}
+
+/* 右侧内容容器 */
+.el-col:nth-child(2) {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.content-container {
+    height: 100%; /* 占满父容器高度 */
+    overflow-y: auto; /* 内容过多时内部滚动 */
+    padding: 0 10px; /* 将原el-col的padding移到此处 */
+}
+
+/* 优化ElementUI组件的默认样式 */
+.el-menu-vertical-demo {
+    border-right: 1px solid #e6e6e6;
+    height: 92vh;
+}
+
+.user-header {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #c1d2e6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 24px;
+    margin-right: 12px;
+}
+
+.phone {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* 会员卡片区域 */
+.member-card {
+    background-color: #8ba3cb;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.card-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.renew-btn {
+    background-color: #16dbcc;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.card-desc {
+    font-size: 12px;
+    margin-bottom: 15px;
+    color: #ffffffa6;
+}
+
+.points-info {
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.progress-bar-wrap {
+    width: 100%;
+    height: 6px;
+    background-color: #fff;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #7fffba;
+    width: 70%; /* 模拟进度，可根据实际数据调整 */
+}
+
+.expire-info {
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* 功能菜单区域 */
+.menu-list {
+    list-style: none;
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+.menu-list li {
+    display: flex;
+    align-items: center;
+    padding: 12px 5px;
+    cursor: pointer;
+}
+
+.menu-list li:hover {
+    background-color: #E4E7ED;
+    border-radius: 10px;
+}
+
+.menu-list li i {
+    font-size: 20px;
+    margin-right: 10px;
+    color: #555;
+}
+
+.menu-list li span {
+    font-size: 16px;
+}
+
+/* 退出登录 */
+.logout-btn {
+    color: #f44336;
+    text-align: center;
+    padding: 12px 0;
+    font-size: 16px;
+    cursor: pointer;
+    border-top: 1px solid #eee;
+}
+
+.upload-demo {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    padding: 20px;
+    text-align: center;
+    background-color: #fafafa;
+    transition: border-color 0.3s;
+}
+
+.upload-demo:hover {
+    border-color: #409eff;
+}
+
+.upload-icon {
+    font-size: 48px !important;
+    color: #8c939d;
+    margin-bottom: 15px;
+    transition: color 0.3s;
+}
+
+.upload-demo:hover .upload-icon {
+    color: #409eff;
+}
+
+.el-upload__text em {
+    color: #409eff;
+    font-style: normal;
+}
+
+.preview-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin: 5px;
+}
+
+h5 {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 8vh;
+    margin: 0;
+    padding: 0 20px;
+}
+
+.right-title {
+    height: 10vh;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 20px 0;
+    justify-content: center;
+}
+
+.right-body {
+    height: 90vh;
+    box-sizing: border-box;
+}
+
+.photo-fy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.public-h3title {
+
+}
+
+/*.photo-fy .el-upload{*/
+/*    height: 100%;*/
+/*}*/
+
+.photo-fy .upload-demo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+}
+
+.photo-fy .el-upload-dragger {
+    height: 100% !important;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    /*flex-direction: column;*/
+    /*justify-content: center;*/
+}
+
+.photo-fy .el-upload--picture-card {
+    height: 100% !important;
+    width: 100% !important;
+}
+
+.photo-fy .el-upload-list {
+    width: 100%;
+}
+
+.el-upload__tip {
+    color: #8ba3cb;
+    font-size: 10px;
+}
+
+h3 {
+    color: #343c6a;
+    font-size: 22px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+h3 i {
+    font-size: 30px !important;
+}
+
+.plbtn {
+    text-align: end;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.plfy .upload-demo {
+    max-height: 65vh;
+    overflow-y: scroll;
+}
+
+.plwb{
+    color: #8ba3cb;
+    font-size: 12px;
+    min-width: 110px;
+    text-align: left;
+}
+
+.demo-progress{
+    width: 100%;
+}
+
+/*.el-popper{*/
+/*    width: 300px!important;*/
+/*}*/
