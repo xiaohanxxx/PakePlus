@@ -1,32 +1,274 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <link rel="stylesheet" href="styles.css" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>PakePlus App</title>
-        <script type="module" src="/main.js" defer></script>
-    </head>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片翻译_批量图片翻译器</title>
+    <script src="./js/vue3.js"></script>
+    <script src="./js/zh-cn.js"></script>
+    <script src="./js/element-plus.js"></script>
+    <link href="./css/element-index.css" rel="stylesheet">
+    <link href="./css/index.css" rel="stylesheet">
+    <link href="./font_awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="./ali_font/iconfont.css" rel="stylesheet">
+</head>
 
-    <body>
-        <main class="container">
-            <h1>Welcome to PakePlus</h1>
-            <form class="row" id="greet-form">
-                <input id="inputValue" placeholder="Enter a something..." />
-            </form>
-            <div class="resultBox">
-                <span>result: </span>
-                <span id="result"></span>
+<body>
+<div id="app">
+    <el-row>
+        <el-col :span="4">
+            <el-row class="tac">
+                <el-col :span="24">
+                    <h5 class="mb-2"><i class="iconfont icon-gongzuotai"></i>智媒工具箱</h5>
+                    <el-menu
+                            :default-active="currentMenu"
+                            class="el-menu-vertical-demo"
+                            @open="handleOpen"
+                            @close="handleClose"
+                            @select="handleSelect"
+                    >
+                        <el-sub-menu index="1">
+                            <template #title>
+                                <el-icon>
+                                    <i class="fa fa-file-image-o" aria-hidden="true"></i>
+                                </el-icon>
+                                <span>图片处理</span>
+                            </template>
+                            <el-menu-item-group title="翻译">
+                                <el-menu-item index="1-1">图片翻译</el-menu-item>
+                                <el-menu-item index="1-2">批量图片翻译</el-menu-item>
+                            </el-menu-item-group>
+                            <el-menu-item-group title="文本">
+                                <el-menu-item index="1-3">图片文字提取</el-menu-item>
+                                <el-menu-item index="1-4">批量图片文字提取</el-menu-item>
+                            </el-menu-item-group>
+                            <el-menu-item-group title="处理">
+                                <el-menu-item index="1-5">图片擦除</el-menu-item>
+                                <el-menu-item index="1-6">智能抠图</el-menu-item>
+                                <el-menu-item index="1-7">图片去水印</el-menu-item>
+                                <el-menu-item index="1-8">图片文字消除</el-menu-item>
+                                <el-menu-item index="1-9">批量图片文字消除</el-menu-item>
+                                <el-menu-item index="1-10">无损改尺寸</el-menu-item>
+                            </el-menu-item-group>
+                        </el-sub-menu>
+                        <el-menu-item index="2">
+                            <el-icon>
+                                <i class="fa fa-users" aria-hidden="true"></i>
+                            </el-icon>
+                            <span>联系客服</span>
+                        </el-menu-item>
+                        <el-popover
+                                placement="right"
+                                :width="300"
+                                trigger="hover"
+                                popper-class="account-popover"
+                                v-model:visible="visible"
+                        >
+                            <template #reference>
+                                <span class="el-menu-item" style="cursor: pointer;">
+                                    <el-icon>
+                                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                                    </el-icon>
+                                    <span>我的账户</span>
+                                </span>
+                            </template>
+
+                            <div class="popover-content">
+                                <div class="card">
+                                    <div class="user-header">
+                                        <div class="avatar">👤</div>
+                                        <div class="phone">155****2569</div>
+                                    </div>
+                                    <div class="member-card">
+                                        <div class="card-title">
+                                            <span>新用户注册礼包</span>
+                                            <div class="renew-btn">续费会员</div>
+                                        </div>
+                                        <div class="card-desc">升级会员更多尊享权益</div>
+                                        <div class="points-info">
+                                            会员当月剩余：43.5 积分
+                                        </div>
+                                        <div class="progress-bar-wrap">
+                                            <div class="progress-bar"></div>
+                                        </div>
+                                        <div class="expire-info">会员有效期至：2025-08-13</div>
+                                    </div>
+
+                                    <ul class="menu-list">
+                                        <li><i class="iconfont icon-icon"></i><span>账户中心</span></li>
+                                    </ul>
+
+                                    <div class="logout-btn" @click="logout">退出登录</div>
+                                </div>
+                            </div>
+                        </el-popover>
+                    </el-menu>
+                </el-col>
+            </el-row>
+        </el-col>
+        <el-col :span="20" style="padding: 0 10px; height: 100%; box-sizing: border-box;">
+            <!-- 添加固定高度的内容容器 -->
+            <div class="content-container">
+                <!-- 根据当前菜单显示不同内容 -->
+                <div v-if="currentMenu === '1-1'">
+                    <h3 class="right-title"><i class="iconfont icon-neirongliebiao"></i>图片翻译</h3>
+                    <div class="right-body photo-fy">
+                        <el-upload
+                                class="upload-demo"
+                                drag
+                                action="https://jsonplaceholder.typicode.com/posts/"
+                                :on-preview="handlePreview"
+                                :on-remove="handleRemove"
+                                :file-list="fileList"
+                                list-type="picture-card"
+                                :on-exceed="handleExceed"
+                                accept="image/png, image/jpeg, image/jpg, image/bmp, image/webp"
+                        >
+                            <div>
+                                <img src="./img/img1.png" width="300">
+                            </div>
+                            <div>
+                                <i class="fa fa-cloud-upload upload-icon"></i>
+                                <div class="el-upload__text">将文件拖到此处或<em>点击上传</em></div>
+                                <div class="el-upload__tip" slot="tip">
+                                    支持jpg、png、jpeg、bmp、webp格式，图片大小限制5M内，宽高不超过2000*2000
+                                </div>
+                            </div>
+                        </el-upload>
+                        <el-dialog :visible.sync="dialogVisible">
+                            <img width="100%" :src="dialogImageUrl" alt="">
+                        </el-dialog>
+                    </div>
+                </div>
+
+                <div v-else-if="currentMenu === '1-2'">
+                    <h3 class="right-title"><i class="iconfont icon-piliangtupian"></i>批量图片翻译</h3>
+                    <div class="right-body plfy">
+                        <!-- 批量图片翻译组件 -->
+                        <el-upload
+                                class="upload-demo"
+                                drag
+                                action="https://jsonplaceholder.typicode.com/posts/"
+                                :on-preview="handlePreview"
+                                :on-remove="handleRemove"
+                                :file-list="fileList"
+                                list-type="picture"
+                                multiple
+                                :on-exceed="handleExceed"
+                                :on-success="handleSuccess"
+                                accept="image/png, image/jpeg, image/jpg, image/bmp, image/webp"
+
+                        >
+                            <i class="fa fa-cloud-upload upload-icon"></i>
+                            <div class="el-upload__text">将文件拖到此处或<em>点击上传</em>,最多支持200张图片</div>
+                            <div class="el-upload__tip" slot="tip">支持jpg、png、jpeg、bmp、webp格式，图片大小限制5M内，宽高不超过2000*2000
+                            </div>
+                        </el-upload>
+                        <el-row class="mt-3">
+                            <el-col :span="24" class="plbtn">
+                                <div class="plwb">共10张图片</div>
+                                <div>
+                                    <el-button>清空</el-button>
+                                    <el-button type="primary" @click="batchTranslate">开始批量翻译</el-button>
+                                </div>
+                            </el-col>
+                            <div class="demo-progress">
+                                <el-progress
+                                        :text-inside="true"
+                                        :stroke-width="20"
+                                        :percentage="50"
+                                />
+                            </div>
+                        </el-row>
+                    </div>
+                </div>
+
+                <!-- 其他菜单项对应的内容区域 -->
+                <div v-else-if="currentMenu === '1-3'">
+                    <h3>图片文字提取</h3>
+                    <!-- 图片文字提取组件 -->
+                </div>
+
+                <div v-else-if="currentMenu === '1-4'">
+                    <h3>批量图片文字提取</h3>
+                    <!-- 批量图片文字提取组件 -->
+                </div>
+
+                <!-- 其他菜单项内容区域 -->
+                <div v-else-if="currentMenu === '2'">
+                    <h3>联系客服</h3>
+                    <!-- 联系客服组件 -->
+                    <el-card>
+                        <div class="contact-info">
+                            <p><i class="fa fa-phone" aria-hidden="true"></i> 客服电话: 400-123-4567</p>
+                            <p><i class="fa fa-envelope-o" aria-hidden="true"></i> 客服邮箱: support@example.com</p>
+                            <p><i class="fa fa-comments-o" aria-hidden="true"></i> 在线客服: 工作日 9:00-18:00</p>
+                        </div>
+                    </el-card>
+                </div>
+
+                <!-- 默认显示内容 -->
+                <div v-else>
+                    <h3>欢迎使用智媒工具箱</h3>
+                    <p>请从左侧菜单选择您需要使用的功能</p>
+                </div>
             </div>
-            <div class="invokeBox">
-                <button id="openUrl">open_url_browser</button>
-                <button id="openUrlNew">open_url_new</button>
-                <button id="runCommand">run_command</button>
-                <button id="downloadFile">download_file</button>
-                <button id="getExeDir">get_exe_dir</button>
-                <button id="getEnvVar">get_env_var</button>
-                <button id="findPort">find_port</button>
-            </div>
-        </main>
-    </body>
+
+        </el-col>
+    </el-row>
+</div>
+
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                fileList: [],
+                visible: false,
+                currentMenu: '1-1', // 存储当前选中的菜单项
+                translateLang: 'zh' // 翻译语言
+            }
+        },
+        methods: {
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
+            handlePreview(file) {
+                console.log(file);
+            },
+            handleOpen(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleClose(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleSelect(key, keyPath) {  // 添加菜单项选择处理函数
+                console.log('选中的菜单项:', key);
+                this.currentMenu = key; // 更新当前选中的菜单项
+            },
+            handleSuccess(){
+                console.log('上传成功');
+                console.log(this.fileList)
+            },
+            ceshi() {
+                console.log('ceshi');
+            },
+            translate() {
+                console.log('开始翻译');
+                // 翻译逻辑
+            },
+            batchTranslate() {
+                console.log('开始批量翻译');
+                // 批量翻译逻辑
+            },
+            logout() {
+                console.log('退出登录');
+                // 退出登录逻辑
+            }
+        }
+    })
+
+    app.use(ElementPlus);
+    app.mount('#app');
+</script>
+</body>
 </html>
