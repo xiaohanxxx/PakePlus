@@ -1,0 +1,16 @@
+{
+  "id": "4977245",
+  "name": "图片翻译",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "783452",
+      "name": "积分",
+      "font_class": "icon",
+      "unicode": "e658",
+      "unicode_decimal": 58968
+    }
+  ]
+}
